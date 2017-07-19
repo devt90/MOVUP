@@ -24,6 +24,8 @@ public class DetailsActivity extends AppCompatActivity {
     public static JSONObject link;
     public static String url;
     public static String title;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +49,12 @@ public class DetailsActivity extends AppCompatActivity {
         ImageView img=(ImageView)findViewById(R.id.poster);
         Picasso.with(this).load(Api.IMAGE_URL+Api.IMAGE_SIZE_300+poster_path).fit().into(img);
         RatingBar ratingbar=(RatingBar)findViewById(R.id.ratingbar);
-        //ratingbar.setStepSize((float)0.5);
         ratingbar.setMax(10);
         ratingbar.setRating(Float.parseFloat(rating));
         int id=extras.getInt("id");
         String ss="https://api.themoviedb.org/3/movie/"+Integer.toString(id)+"/videos?api_key="+Api.API_KEY+"&language=en-US";
-        //Toast.makeText(this,ss,Toast.LENGTH_SHORT).show();
+
+        //to get link of trailer
         Ion.with(this).load(ss).asString().setCallback(new FutureCallback<String>() {
             @Override
             public void onCompleted(Exception e, String result) {
@@ -69,6 +71,8 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //setting onclicklistener for trailer button
         Button but=(Button)findViewById(R.id.trailer);
         but.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -49,13 +49,11 @@ public class MainActivity extends AppCompatActivity {
     public static JSONArray cat2Json;
     public static JSONArray cat3Json;
     public static JSONArray cat4Json;
-   // public static JSONObject tempJson;
-
     public static int var;
     public int checker=1;
-    //public static ArrayList<String> year=new ArrayList<String>();
     public static String yy;
     public static int check=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,85 +61,21 @@ public class MainActivity extends AppCompatActivity {
         var=0;
         check=1;
         init();
-
-
     }
 
+
+    //function that initialises the activity
     public void init()
     {
 
         images.clear();
         Load ll=new Load(this);
         ll.execute("load");
-       /* GridView gridview=(GridView)findViewById(R.id.gridview);
-        Main_adapter main_adapter=new Main_adapter(getApplicationContext());
-        gridview.setAdapter(main_adapter);
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0)
-                {
-                    //Toast.makeText(getApplicationContext(),"hell0",Toast.LENGTH_SHORT).show();
-                    if(check==1) {
-                        finishActivity(101);
-                        check = 0;
-                    }
-                    Intent i=new Intent(MainActivity.this,MovieActivity.class);
-                    i.putExtra("num",1);
-                    i.putExtra("title","IN CINEMA NOW");
-                    i.putExtra("cat",cat1Json.toString());
-                    startActivityForResult(i,101);
-                    check=1;
-                }
-                else if(position==1)
-                {
-                    if(check==1) {
-                        finishActivity(101);
-                        check = 0;
-                    }
-                    Intent i=new Intent(MainActivity.this,MovieActivity.class);
-                    i.putExtra("num",2);
-                    i.putExtra("title","BEST OF "+yy);
-                    i.putExtra("cat",cat2Json.toString());
-                    startActivityForResult(i,101);
-                    check=1;
-                }
-                else if(position==2)
-                {
-                    if(check==1) {
-                        finishActivity(101);
-                        check = 0;
-                    }
-                    Intent i=new Intent(MainActivity.this,MovieActivity.class);
-                    i.putExtra("num",3);
-                    i.putExtra("cat",cat3Json.toString());
-                    i.putExtra("title","MOST POPULAR");
-                    startActivityForResult(i,101);
-                    check=1;
-                   // i.putExtras("code",101);
-
-                    //finishActivity(101);
-                }
-                else
-                {
-                    if(check==1) {
-                        finishActivity(101);
-                        check = 0;
-                    }
-                    Intent i=new Intent(MainActivity.this,MovieActivity.class);
-                    i.putExtra("num",4);
-                    i.putExtra("cat",cat4Json.toString());
-                    i.putExtra("title","FOR KIDS");
-                    startActivityForResult(i,101);
-                    check=1;
-
-                }
-            }
-        });*/
-
 
     }
 
+
+    //function fetching json using ION
     public void fetch()
     {
         Calendar cal=Calendar.getInstance();
@@ -153,17 +87,6 @@ public class MainActivity extends AppCompatActivity {
         String gte=format1.format(cal2.getTime());
         String str=Api.API_URL+"?api_key="+Api.API_KEY+"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&primary_release_date.gte="+gte+"&primary_release_date.lte="+lte;
         String url;
-
-        /*try {
-            JSONArray array=tempJson.getJSONArray("results");
-            JSONObject frst =array.optJSONObject(0);
-            images.add("http://image.tmdb.org/t/p/w300/"+frst.getString("poster_path"));
-            cat1Json=array;
-        }
-        catch (JSONException rr)
-        {
-            rr.printStackTrace();
-        }*/
 
         Ion.with(this).load(str).asString().setCallback(new FutureCallback<String>() {
             @Override
@@ -184,18 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        /*try{
-        JSONArray array = tempJson.getJSONArray("results");
-        JSONObject frst = array.getJSONObject(0);
-        images.add("http://image.tmdb.org/t/p/w300/"+frst.getString("poster_path"));
-        cat1Json=array;
-        Log.e("hi",tempJson.toString());}
-        catch (JSONException rr)
-        {
-            rr.printStackTrace();
-        }*/
-
-
 
         Random rand= new Random();
         int randy=rand.nextInt(2017-2000+1)+2000;
@@ -220,17 +131,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-       // randy=rand.nextInt(30);
-        //final int finalRandy = randy;
         Ion.with(this).load(Api.API_URL+"?api_key="+Api.API_KEY+"&language=en-US&sort_by=popularity.desc&page=1").asString().setCallback(new FutureCallback<String>() {
              @Override
              public void onCompleted(Exception e, String result) {
                  try {
                      JSONObject obj = new JSONObject(result);
                      JSONArray array = obj.getJSONArray("results");
-                    // JSONObject frst = array.getJSONObject(finalRandy);
-                     //images.add("http://image.tmdb.org/t/p/w300/"+frst.getString("poster_path"));
                      cat3Json=array;
                      var++;
                  }
@@ -247,8 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 try{
                     JSONObject obj = new JSONObject(result);
                     JSONArray array = obj.getJSONArray("results");
-                    //JSONObject frst = array.getJSONObject(0);
-                    //images.add("http://image.tmdb.org/t/p/w300/"+frst.getString("poster_path"));
                     cat4Json=array;
                     var++;
                 }
@@ -260,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+    //function to load the data from theimdb
     private class Load extends AsyncTask<String,Void,Void>{
         private ProgressDialog progressDialog;
         private Context context;
@@ -316,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (position == 0) {
-                            //Toast.makeText(getApplicationContext(),"hell0",Toast.LENGTH_SHORT).show();
                             if (check == 1) {
                                 finishActivity(101);
                                 check = 0;
@@ -378,80 +284,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+    //for checking internet connection
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-   /* public class Loadutils extends AsyncTask<String,Void,Void>{
-
-        private Context context;
-        public Loadutils(Context context)
-        {
-            this.context=context;
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-
-            URL url;
-            HttpURLConnection connection=null;
-            InputStream stream=null;
-            BufferedReader reader=null;
-            try{
-                url=new URL(params[0]);
-                connection=(HttpURLConnection)url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
-                stream=connection.getInputStream();
-                Log.e("in background",stream.toString());
-                if(stream==null)
-                {
-                    return null;
-                }
-                reader=new BufferedReader(new InputStreamReader(stream));
-                String line;
-                StringBuffer stringBuffer;
-                stringBuffer=new StringBuffer();
-                while((line=reader.readLine())!=null)
-                {
-                    stringBuffer.append(line);
-                }
-                //line=stringBuffer;
-                try {
-                    tempJson=new JSONObject(stringBuffer.toString());
-                    Log.e("hh",stringBuffer.toString());
-                }
-                catch (JSONException rr)
-                {
-                    rr.printStackTrace();
-                }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            finally {
-                if(connection!=null)
-                    connection.disconnect();
-                if(stream!=null)
-                {
-                    try{
-                        stream.close();
-                    }
-                    catch (IOException ee)
-                    {
-                        return null;
-                    }
-                }
-
-            }
-            return null;
-
-        }
-
-    }*/
-
 
 }

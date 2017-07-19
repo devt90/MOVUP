@@ -22,13 +22,12 @@ import static android.R.attr.max;
 public class MovieActivity extends AppCompatActivity {
     public  static ArrayList<String> images=new ArrayList<String>();
     public  static JSONArray help_array;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setTitle("hello");
-
         Bundle extras=getIntent().getExtras();
-
         if(extras==null)
         {
             return ;
@@ -46,10 +45,6 @@ public class MovieActivity extends AppCompatActivity {
         {
             t.printStackTrace();
         }
-
-
-
-        //Toast.makeText(this,"child",Toast.LENGTH_SHORT).show();
         GridView gridview=(GridView)findViewById(R.id.gridview);
         Movie_adapter adapter=new Movie_adapter(this);
         gridview.setAdapter(adapter);
@@ -65,9 +60,7 @@ public class MovieActivity extends AppCompatActivity {
                     i.putExtra("rating",obj.getInt("vote_average"));
                     i.putExtra("overview",obj.getString("overview"));
                     int ide=obj.getInt("id");
-                    //String str=new String(id);
                     i.putExtra("id",ide);
-                    //i.putExtra("trailer",)
                     startActivity(i);
                 }
                 catch (JSONException e)
@@ -82,7 +75,7 @@ public class MovieActivity extends AppCompatActivity {
     }
 
 
-
+    //adding images to Adapter using Json Array
     public void fetch(JSONArray array)
     {
         int i=0;
